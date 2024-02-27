@@ -1,0 +1,462 @@
+BMC-CONTROLEM-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+	enterprises,
+	MODULE-IDENTITY,
+	OBJECT-TYPE,
+	NOTIFICATION-TYPE
+		FROM SNMPv2-SMI
+
+	SnmpAdminString
+		FROM SNMP-FRAMEWORK-MIB;
+
+--MIB module for Control-M/Enterprise Manager traps
+
+controlmemMIB MODULE-IDENTITY
+	LAST-UPDATED "200509251533Z"
+	ORGANIZATION "BMC Software"
+	CONTACT-INFO
+		"Contorl-M/Enterprise Manager development group at BMC Software"
+	DESCRIPTION
+		"Control-M/Enterprise Manager MIB"
+	REVISION "200509251533Z"
+	DESCRIPTION
+		"Initial version."
+	::= { enterprises 1031 9 }
+
+
+bmc OBJECT IDENTIFIER 	::= { enterprises 1031 }
+
+--Control-M/Enterprise Manager Alert entity
+
+controlmAlert OBJECT IDENTIFIER 	::= { controlmemMIB 1 }
+
+alertTrapUpdateType OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..1))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert update type
+		'I' Insert - new alert
+		'U' Update existing alert"
+	::= { controlmAlert 1 }
+
+
+alertTrapAlertId OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..20))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert id
+		Unique alert identifier"
+	::= { controlmAlert 2 }
+
+
+alertTrapControlM OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..20))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Control-M server name"
+	::= { controlmAlert 3 }
+
+
+alertTrapMemName OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..30))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job member name"
+	::= { controlmAlert 4 }
+
+
+alertTrapOrderId OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..5))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job order id"
+	::= { controlmAlert 5 }
+
+
+alertTrapSeverity OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..1))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert severity
+		'R' - regular
+		'U' - urgent
+		'V' - very urgent"
+	::= { controlmAlert 6 }
+
+
+alertTrapTime OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..14))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert creation time (YYYYMMDDhhmmss)"
+	::= { controlmAlert 8 }
+
+
+alertTrapStatus OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..11))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert status (Not_Noticed, Noticed or Handled)"
+	::= { controlmAlert 7 }
+
+
+alertTrapNodeId OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..50))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job node id"
+	::= { controlmAlert 16 }
+
+
+alertTrapJobName OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..64))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job name"
+	::= { controlmAlert 15 }
+
+
+alertTrapMessage OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..255))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert message"
+	::= { controlmAlert 11 }
+
+
+alertTrapApplication OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..20))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job application name"
+	::= { controlmAlert 14 }
+
+
+alertTrapGroup OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..20))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job sub application name"
+	::= { controlmAlert 13 }
+
+
+alertTrapType OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..1))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert type
+		B - BIM alert type
+		R or empty - regular alert type"
+	::= { controlmAlert 17 }
+
+
+alertTrapClosedFromEM OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..1))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Closed from Control-M/Enterprise Manager
+		Y - yes
+		N or empty - no"
+	::= { controlmAlert 18 }
+
+
+alertTrapTicketNumber OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..15))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Remedy ticket number"
+	::= { controlmAlert 19 }
+
+
+alertTrapRunCounter OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..11))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job's run counter"
+	::= { controlmAlert 20 }
+
+
+alertTrapUser OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..16))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Last updated by, user name"
+	::= { controlmAlert 9 }
+
+
+alertTrapUpdateTime OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..14))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Last time the alert was updated (YYYYMMDDhhmmss)"
+	::= { controlmAlert 10 }
+
+
+alertTrapOwner OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..8))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"The user who runs the job"
+	::= { controlmAlert 12 }
+
+alertTrapNotes OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..100))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert notes"
+	::= { controlmAlert 21 }
+
+
+
+alertTrap NOTIFICATION-TYPE
+	OBJECTS {
+		alertTrapUpdateType,
+		alertTrapAlertId,
+		alertTrapControlM,
+		alertTrapMemName,
+		alertTrapOrderId,
+		alertTrapSeverity,
+		alertTrapStatus,
+		alertTrapTime,
+		alertTrapUser,
+		alertTrapUpdateTime,
+		alertTrapMessage,
+		alertTrapOwner,
+		alertTrapGroup,
+		alertTrapApplication,
+		alertTrapJobName,
+		alertTrapNodeId,
+		alertTrapType,
+		alertTrapClosedFromEM,
+		alertTrapTicketNumber,
+		alertTrapRunCounter,
+		alertTrapNotes}
+	STATUS current
+	DESCRIPTION
+		""
+	::= { controlmAlert 999 }
+
+
+controlmxAlert OBJECT IDENTIFIER 	::= { controlmemMIB 2 }
+
+xAlertTrapCallType OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..20))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert update type
+		'I' Insert - new alert
+		'U' Update existing alert"
+	::= { controlmxAlert 2 }
+
+xAlertTrapSerial OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..20))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Serial number"
+	::= { controlmxAlert 3 }
+
+xAlertTrapCompType OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..20))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert id
+		Unique alert identifier"
+	::= { controlmxAlert 4 }
+
+
+xAlertTrapCompMachine OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..255))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Control-M server name"
+	::= { controlmxAlert 5 }
+
+
+xAlertTrapCompName OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..32))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job member name"
+	::= { controlmxAlert 6 }
+
+
+xAlertTrapMessageId OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..20))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job order id"
+	::= { controlmxAlert 7 }
+
+
+xAlertTrapXSeverity OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..1))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert severity
+		'0' - Undefined
+		'1' - Severe
+		'2' - Error
+                '3' - Warning"
+	::= { controlmxAlert 8 }
+
+
+xAlertTrapMessage OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..255))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert creation time (YYYYMMDDhhmmss)"
+	::= { controlmxAlert 9 }
+
+
+xAlertTrapXTime OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..14))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert status (Not_Noticed, Noticed or Handled)"
+	::= { controlmxAlert 10 }
+
+
+xAlertTrapXTimeOFLast OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..14))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job node id"
+	::= { controlmxAlert 11 }
+
+
+xAlertTrapCounter OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..64))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job name"
+	::= { controlmxAlert 12 }
+
+
+xAlertTrapStatus OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..11))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert message"
+	::= { controlmxAlert 13 }
+
+
+xAlertTrapNote OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..255))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job application name"
+	::= { controlmxAlert 14 }
+
+
+xAlertTrapKey1 OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..255))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job group name"
+	::= { controlmxAlert 15 }
+
+
+xAlertTrapKey2 OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..255))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Alert type
+		B - BIM alert type
+		R or empty - regular alert type"
+	::= { controlmxAlert 16 }
+
+
+xAlertTrapKey3 OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..255))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Closed from Control-M/Enterprise Manager
+		Y - yes
+		N or empty - no"
+	::= { controlmxAlert 17 }
+
+
+xAlertTrapKey4 OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..255))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Remedy ticket number"
+	::= { controlmxAlert 18 }
+
+
+xAlertTrapKey5 OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..255))
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION
+		"Job's run counter"
+	::= { controlmxAlert 19 }
+
+
+xAlertTrap NOTIFICATION-TYPE
+	OBJECTS {
+		xAlertTrapCallType,
+		xAlertTrapSerial,
+		xAlertTrapCompType,
+		xAlertTrapCompMachine,
+		xAlertTrapCompName,
+		xAlertTrapMessageId,
+		xAlertTrapXSeverity,
+		xAlertTrapMessage,
+		xAlertTrapXTime,
+		xAlertTrapXTimeOFLast,
+		xAlertTrapCounter,
+		xAlertTrapStatus,
+		xAlertTrapNote,
+		xAlertTrapKey1,
+		xAlertTrapKey2,
+		xAlertTrapKey3,
+		xAlertTrapKey4,
+		xAlertTrapKey5}
+	STATUS current
+	DESCRIPTION
+		""
+	::= { controlmxAlert 999 }
+
+
+
+END
